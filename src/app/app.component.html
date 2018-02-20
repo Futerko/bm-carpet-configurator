@@ -1,0 +1,114 @@
+<mz-sidenav [id]="'sidenav-text'" [collapseButtonId]="'editor-text'">
+    <mz-sidenav-header>
+        <img src="assets/images/text-brown.png" width="75" />
+        <br/> Impostazioni Testo
+    </mz-sidenav-header>
+    <mz-sidenav-subheader>Colore:</mz-sidenav-subheader>
+    <li style="margin:10px;">
+        <div class="row">
+            <div *ngFor="let obj of carpetService.mySelection.carpet.palettes" class="col-xs-3 col-sm-3 col-md-3 col-lg-3" (click)="onSelectColor(obj)">
+                <i mz-icon-mdi [align]="'center'" [icon]="(obj === carpetService.mySelection.color) ? 'checkbox-marked-circle' : 'brightness-1'" [size]="'48px'" [ngStyle]="{'color' : ''+ obj}"></i>
+            </div>
+        </div>
+    </li>
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-subheader>Carattere:</mz-sidenav-subheader>
+    <li style="margin:10px;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <select id="options-select" class="{{carpetService.mySelection.font.cssClass}} font-chooser-item" style="display: block !important;" [(ngModel)]="carpetService.mySelection.font" (ngModelChange)="onSelectFont($event)">
+                    <option class="{{obj.cssClass}}" [ngValue]="obj" *ngFor="let obj of carpetService.fonts">{{obj.name}}</option>
+                </select>
+            </div>
+        </div>
+    </li>
+</mz-sidenav>
+
+<mz-sidenav [id]="'sidenav-carpet'" [collapseButtonId]="'chooser-carpet'">
+    <mz-sidenav-header>
+        <img src="assets/images/carpet-brown.png" width="75" />
+        <br/> Tappeto
+    </mz-sidenav-header>
+    <mz-sidenav-subheader>Dimensioni:</mz-sidenav-subheader>
+    <li style="margin:10px;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <select id="options-select" style="display: block !important;" [(ngModel)]="carpetService.mySelection.size">
+                    <option *ngFor="let obj of carpetService.sizes">{{obj}}</option>
+                </select>
+            </div>
+        </div>
+    </li>
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-subheader>Motivo:</mz-sidenav-subheader>
+    <li style="margin:10px;" class="carpet-showroom">
+        <div class="row">
+            <div class="{{carpetService.mySelection.carpet.name==_carpet.name ? 'carpet-selected' : ''}} col-xs-12 col-sm-12 col-md-12 col-lg-12"   *ngFor="let _carpet of carpetService.carpets" (click)="onSelectImageCarpet(_carpet)">
+                <img src="assets/images/{{_carpet.file}}" width="150"/>
+            </div>
+        </div>
+    </li>
+</mz-sidenav>
+
+<main>
+    <div class="parent">
+        <img class="child" src="https://www.babymonkey.it/img/babymonkey-logo-1483604077.jpg" alt="BabyMonkey - TREE HOUSE Configurator">
+    </div>
+
+    <div class="canvasContainer">
+        <div class="innerCanvasContainer">
+            <canvas id="theCanvas" class="theCanvas" width="445" height="645" style="z-index: 1;"></canvas>
+        </div>
+    </div>
+
+    <section class="buttonbar">
+        <div class="fixed-action-btn vertical">
+            <a class="btn-floating btn-large bm-brown">
+                <i mz-icon-mdi [icon]="'pencil'" [size]="'36px'"></i>
+            </a>
+            <ul>
+                <li>
+                    <a class="btn-floating bm-green btn-large" id="chooser-carpet">
+                        <i mz-icon-mdi [icon]="'camera-metering-matrix'" [rotate]="'45'" [size]="'36px'"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn-floating bm-green  btn-large" id="editor-text">
+                        <i mz-icon-mdi [icon]="'format-text'" [size]="'36px'"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn-floating bm-green  btn-large" id="editor-text" (click)="onSave()">
+                        <i mz-icon-mdi [icon]="'floppy'" [size]="'36px'"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <img src="{{imageSaved}}" />
+
+</main>
+
+<!--script>
+        $(document).ready(function () {
+          //Get the canvas &
+          var c = $('#theCanvas');
+          var ct = c.get(0).getContext('2d');
+          var container = $(c).parent();
+    
+          //Run function when browser resizes
+          $(window).resize(respondCanvas);
+    
+          function respondCanvas() {
+            c.attr('width', $(container).width()); //max width
+            c.attr('height', $(container).height()); //max height
+    
+            //Call a function to redraw other content (texts, images etc)
+          }
+    
+          //Initial call
+          respondCanvas();
+    
+        }); 
+      </script-->
