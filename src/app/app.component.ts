@@ -20,9 +20,17 @@ export class AppComponent {
   theCanvas:any;
   theName:any;
   imageSaved:string;
+  workarea:any = {
+    width: '',
+    height: ''
+  };
 
   ngOnInit() {
+    this.workarea.width = window.innerWidth <= 375 ? '300' : '445';
+    this.workarea.height = window.innerHeight <= 667 ? '500' : '645';
     this.theCanvas = new fabric.Canvas('theCanvas');
+    this.theCanvas.setHeight(this.workarea.height);
+    this.theCanvas.setWidth(this.workarea.width);
   }
 
   onSelectImageCarpet(_carpet) {
@@ -58,12 +66,20 @@ export class AppComponent {
   }
 
   onSelectFont(_font) {
+    this.carpetService.mySelection.font = _font;
     this.theName.set("fontFamily", _font.name);
     this.theCanvas.requestRenderAll();
   }
 
+  onSelectSize(_size) {
+    this.carpetService.mySelection.size = _size;
+  }
+
   onSave() {
-    this.imageSaved = this.theCanvas.toDataURL('png');
+    this.imageSaved = this.theCanvas.toDataURL({
+      width: 443,
+      height: 641
+    });
   }
 
 }
